@@ -7,9 +7,9 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var settings=require('./settings');
-var session=require('express-session');
-var MongoStore=require('connect-mongo')(session);
+var settings = require('./settings');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var app = express();
 
@@ -21,23 +21,27 @@ app.set('view engine', 'ejs');
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/reg',routes)
-app.use('/login',routes);
-app.use('/post',routes);
+app.use('/reg', routes)
+app.use('/login', routes);
+app.use('/post', routes);
 app.use(session({
-  secret:settings.cookieScret,
-  key:settings.db,
-  cookie:{maxAge:1000*60*60*24*30},
-  store:new MongoStore({
-    db:setting.db,
-    host:settings.host,
-    port:settings.port
+  secret: settings.cookieScret,
+  key: settings.db,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 30
+  },
+  store: new MongoStore({
+    db: settings.db,
+    host: settings.host,
+    port: settings.port
   })
 }));
 
