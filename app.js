@@ -10,12 +10,14 @@ var users = require('./routes/users');
 var settings = require('./settings');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var flash=require('connect-flash');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -44,6 +46,7 @@ app.use(session({
     port: settings.port
   })
 }));
+app.use(flash());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

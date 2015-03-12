@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Main page' });
 });
 router.get('/reg',function(req,res){
-  res.render('index',{title:'Register'});
+  res.render('reg',{title:'Register'});
 });
 router.get('/login',function(req,res){
 	res.render('login',{title:'Login'});
