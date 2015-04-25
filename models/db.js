@@ -1,6 +1,6 @@
-var setting=require('../setting.js');
+var settings=require('../settings.js');
 Db=require('mongodb').Db,
 Connection=require('mongodb').Connection,
 Server=require('mongodb').Server;
-module.exports=new Db(settings.db, new Server(setting.host, settings.{safe:true}));
+module.exports=new Db(settings.db, new Server(settings.host, settings.port),{safe:true});
 

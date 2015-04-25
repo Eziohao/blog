@@ -1,4 +1,4 @@
-var mongodb = require('./db');
+var mongodb = require('./db.js');
 
 function User(user) {
 	this.name = user.name;
@@ -18,7 +18,7 @@ User.prototype.save = function(callback) {
 		if (err) {
 			return callback(err);
 		}
-		db.collection('user', function(err, collection) {
+		db.collection('users', function(err, collection) {
 			if (err) {
 				mongodb.close();
 				return callback(err);
@@ -42,7 +42,7 @@ User.get=function(name,collection){
 		if(err){
 			return callback(err);
 		}
-		db.collection('user',function(err,collection){
+		db.collection('users',function(err,collection){
 			if(err){
 				mongodb.close();
 				return callback(err);
@@ -56,7 +56,7 @@ User.get=function(name,collection){
 					return callback(err);
 				}
 				callback(null,user);
-			})
-		})
-	})
-}
+			});
+		});
+	});
+};
