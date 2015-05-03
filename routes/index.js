@@ -19,8 +19,7 @@ router.post('/reg', function(req, res) {
   var name = req.body.name;
   var password = req.body.password;
   var password_re = req.body.passwordRepeat;
- console.log(password_re);
- console.log(password);
+
   if (password != password_re) {
 
     req.flash = ('error', "Please input same password");
@@ -36,7 +35,7 @@ router.post('/reg', function(req, res) {
     email: req.body.email
   });
   
-  User.get(newUser.name, function(err, user) {
+  User.get( newUser.name,function(err, user) {
     if (err) {
       console.log('error log');
       req.flash('error', err);
@@ -53,6 +52,7 @@ router.post('/reg', function(req, res) {
         req.flash('error', err);
         return res.redirect('/reg');
       }
+      console.log(user);
       req.session.user = user;
       console.log("success");
       req.flash('success', 'Regesiter success');
