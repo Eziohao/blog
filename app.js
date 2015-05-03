@@ -29,13 +29,9 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/reg', routes)
-app.use('/login', routes);
-app.use('/post', routes);
+
 app.use(session({
-  secret: settings.cookieScret,
+  secret: settings.cookieSecret,
   key: settings.db,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 30
@@ -47,7 +43,11 @@ app.use(session({
   })
 }));
 app.use(flash());
-
+app.use('/', routes);
+app.use('/users', users);
+app.use('/reg', routes)
+app.use('/login', routes);
+app.use('/post', routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

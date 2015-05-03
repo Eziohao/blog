@@ -52,7 +52,7 @@ router.post('/reg', function(req, res) {
         req.flash('error', err);
         return res.redirect('/reg');
       }
-      console.log(user);
+   
       req.session.user = user;
       console.log("success");
       req.flash('success', 'Regesiter success');
