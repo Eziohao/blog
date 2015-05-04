@@ -11,7 +11,17 @@
 	<p>Welcome to <%= title%></p>
 	<nav>
 		<span><a href="/" title="mainpage">home</a></span>
+		<% if(user){ %> <span><a href="/post" title=post>post</a></span>
+		                <span><a href="/logout"title=logout>logout</a></span>
+		<% }else{ %>                
 		<span><a href="/login" title="loginin">login</a></span>
 		<span><a href="/reg" title="register">register</a></span>
+		<% } %>
 	</nav>
 <article>
+	<% if(success){ %>
+	<div><%= success %></div>
+	 <% } %>
+	 <%if(error){ %>
+	 <div><%= error%></div>
+	 <% } %>

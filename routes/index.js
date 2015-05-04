@@ -7,12 +7,18 @@ var flash = require('connect-flash');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', {
-    title: 'Main page'
+    title: 'Main page',
+    user:req.session.user,
+    success:req.flash('success').toString(),
+    error:req.flash('error').toString()
   });
 });
 router.get('/reg', function(req, res) {
   res.render('reg', {
-    title: 'Register'
+    title: 'Register',
+    user:req.session.user,
+    success:req.flash('success').toString(),
+    error:req.flash('error').toString()
   });
 });
 router.post('/reg', function(req, res) {
