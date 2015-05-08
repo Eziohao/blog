@@ -44,7 +44,7 @@ app.use(session({
 }));
 app.use(flash());
 app.use('/', routes);
-app.use('/users', users);
+app.use('/logout',routes);
 app.use('/reg', routes)
 app.use('/login', routes);
 app.use('/post', routes);
