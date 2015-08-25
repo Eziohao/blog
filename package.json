@@ -18,6 +18,7 @@
     "connect-mongo":"*",
     "connect-flash":"*",
     "markdown":"0.5.0",
-    "multer":"*"
+    "multer":"*",
+    "blueimp-file-upload-node":"*"
   }
 }

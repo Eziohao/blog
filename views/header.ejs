@@ -2,23 +2,36 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Blog</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-
+	<title>Eziohao's Blog</title>
+	<!--<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">-->
+    <script src="/lib/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-theme.min.css">
 </head>
 <body>
-	<h1><%= title %></h1>
-	<p>Welcome to <%= title%></p>
-	<nav>
-		<span><a href="/" title="mainpage">home</a></span>
-		<% if(user){ %> <span><a href="/post" title=post>post</a></span>
-		                <span><a href="/logout"title=logout>logout</a></span>
+	<div class="container">
+	
+	<nav class="navbar navbar-default ">
+		<div class="container-fluid">
+		<div class="navbar-header">
+		 <a href="https://github.com/Eziohao" class="navbar-brand">Eziohao's Blog</a>
+		</div>
+         <ul class="nav navbar-nav">
+		<li ><a href="/" title="mainpage">Home</a></li>
+		<% if(user){ %> <li><a href="/post" title=post>Post</a></li>
+		                <li><a href="/logout"title=logout>Logout</a></li>
 		<% }else{ %>                
-		<span><a href="/login" title="loginin">login</a></span>
-		<span><a href="/reg" title="register">register</a></span>
+		<li><a href="/login" title="loginin">Login</a></li>
+		<li><a href="/reg" title="register">Register</a></li>
 		<% } %>
+		</ul>
+		</div>
 	</nav>
-<article>
+	
+	<h1 ><%= title %></h1>
+	<p >Welcome to Eziohao's blog</p>
+<article class="col-md-8">
 	<% if(success){ %>
 	<div><%= success %></div>
 	 <% } %>
