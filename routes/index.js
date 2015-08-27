@@ -6,6 +6,12 @@ var router = express.Router();
 var flash = require('connect-flash');
 var multer=require('multer');
 
+var upload=multer({
+  dest:'../public/images',
+  rename:function(fieldname,filename){
+    return filename;
+  }
+   });
 /* GET home page. */
 router.get('/', function(req, res) {   //mainpage
   Post.get(null,function(err,posts){
@@ -22,7 +28,7 @@ router.get('/', function(req, res) {   //mainpage
 
   });
 });
-
+ 
 
 router.get('/reg',checkNotLogin);   
 router.get('/reg', function(req, res) {  //reg page
@@ -153,13 +159,8 @@ router.get('/upload',function(req,res){
   });
 });
 router.post('/upload',checkLogin);
-router.post('/upload',function(req,res){
-   multer({
-  dest:'../public/images',
-  rename:function(fieldname,filename){
-    return filename;
-  }
-   });
+router.post('/upload',upload,function(req,res){
+ 
    console.log('Upload');
    req.flash('success','Upload success');
    res.redirect('/upload');
