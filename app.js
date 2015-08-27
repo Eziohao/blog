@@ -11,7 +11,7 @@ var settings = require('./settings');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var flash=require('connect-flash');
-var multer=require('multer');
+
 
 var app = express();
 
@@ -30,12 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(multer({
-  dest:'./public/images',
-  rename:function(fieldname,filename){
-    return filename;
-  }
-}));
+
 app.use(session({
   secret: settings.cookieSecret,
   key: settings.db,
@@ -51,9 +46,10 @@ app.use(session({
 app.use(flash());
 app.use('/', routes);
 app.use('/logout',routes);
-app.use('/reg', routes)
+app.use('/reg', routes);
 app.use('/login', routes);
 app.use('/post', routes);
+app.use('/upload',routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

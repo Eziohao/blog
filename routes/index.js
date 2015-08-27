@@ -4,6 +4,7 @@ var User = require('../models/user.js');
 var Post=require('../models/post.js');
 var router = express.Router();
 var flash = require('connect-flash');
+var multer=require('multer');
 
 /* GET home page. */
 router.get('/', function(req, res) {   //mainpage
@@ -137,19 +138,31 @@ router.post('/post',function(req,res){
       req.flash('error',err);
       return res.redirect('/');
     }
-    console.log('get');
+    console.log('get post');
     req.flash('success','Post successed');
     res.redirect('/');
   })
 })
 router.get('/upload',checkLogin);
-router.get('upload',function(req,res){
+router.get('/upload',function(req,res){
   res.render('upload',{
     title:"Upload file",
     user:req.session.user,
     success:req.flash('success').toString(),
     error:req.flash('error').toString()
   });
+});
+router.post('/upload',checkLogin);
+router.post('/upload',function(req,res){
+   multer({
+  dest:'../public/images',
+  rename:function(fieldname,filename){
+    return filename;
+  }
+   });
+   console.log('Upload');
+   req.flash('success','Upload success');
+   res.redirect('/upload');
 });
 
 module.exports = router;
