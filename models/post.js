@@ -46,7 +46,7 @@ Post.prototype.save=function(callback){
 	});
 }
 
-	Post.get=function(name,callback){
+	Post.getAll=function(name,callback){
 		mongodb.open(function(err,db){
 			if(err){
 				return callback(err);
@@ -56,6 +56,7 @@ Post.prototype.save=function(callback){
 					mongodb.close();
 					return callback(err);
 				}
+				console.log("get all posts");
 				var query={};
 				if(name){
 					query.name=name;
@@ -76,3 +77,29 @@ Post.prototype.save=function(callback){
 			});
 		});
 	};
+	Post.getOne=function(name,day,titile,callback){
+		mongodb.open(function(err,db){
+			if(err){
+				return callback(err);
+			}
+			db.collection('posts',function(err,collection){
+				if(err){
+					console.log("error db");
+					mongodb.close();
+					return callback(err);
+				}
+				collection.findOne({
+					"name":name,
+                    "time.day":day,
+                    "title":title
+				},function(err,doc){
+					mongodb.close();
+					if(err){
+						return callback(err);
+					}
+					doc.post=markdown.toHTML(doc.post);
+                    callback(null,doc);
+				});
+			})
+		})
+	}
