@@ -77,13 +77,15 @@ Post.prototype.save=function(callback){
 			});
 		});
 	};
-	Post.getOne=function(name,day,titile,callback){
+	Post.getOne=function(name,day,title,callback){
 		mongodb.open(function(err,db){
 			if(err){
+				console.log("error open");
 				return callback(err);
 			}
 			db.collection('posts',function(err,collection){
 				if(err){
+					console.log(err);
 					console.log("error db");
 					mongodb.close();
 					return callback(err);

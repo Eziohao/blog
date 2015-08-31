@@ -190,7 +190,7 @@ router.get('/u/:name',function(req,res){  //user page
 router.get('/u/:name/:day/:title',function(req,res){    //article page
   Post.getOne(req.params.name,req.params.day,req.params.title,function(err,post){
      if(err){
-      console.log("error");
+      console.log("get one error");
       req.flash('error',err);
       return res.redirect('/');
      }
