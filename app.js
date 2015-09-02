@@ -21,14 +21,14 @@ app.set('view engine', 'ejs');
 
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/bin/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'bin')));
 
 
 app.use(session({
@@ -50,6 +50,9 @@ app.use('/reg', routes);
 app.use('/login', routes);
 app.use('/post', routes);
 app.use('/upload',routes);
+app.use('/u/:name',routes);
+app.use('/u/:name/:day/:title',routes);
+app.use('/edit/:name/:day/:title',routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

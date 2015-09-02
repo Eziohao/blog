@@ -7,14 +7,14 @@ var flash = require('connect-flash');
 var multer=require('multer');
 
 var upload=multer({
-  dest:'../public/images',
+  dest:'../bin/public/images',
   rename:function(fieldname,filename){
     return filename;
   }
    });
 /* GET home page. */
 router.get('/', function(req, res) {   //mainpage
-  Post.get(null,function(err,posts){
+  Post.getAll(null,function(err,posts){
     if(err){
       post=[];
     }
@@ -135,7 +135,7 @@ error: req.flash('error').toString()
 });
 
 router.post('/post',checkLogin);
-router.post('/post',function(req,res){
+router.post('/post',function(req,res){  //post article
   var currentUser=req.session.user;
   var post=new Post(currentUser.name,req.body.title,req.body.post);
   post.save(function(err){
@@ -150,7 +150,7 @@ router.post('/post',function(req,res){
   })
 })
 router.get('/upload',checkLogin);
-router.get('/upload',function(req,res){
+router.get('/upload',function(req,res){  //upload file gets page
   res.render('upload',{
     title:"Upload file",
     user:req.session.user,
@@ -159,12 +159,100 @@ router.get('/upload',function(req,res){
   });
 });
 router.post('/upload',checkLogin);
-router.post('/upload',upload,function(req,res){
+router.post('/upload',upload,function(req,res){  //post file 
  
    console.log('Upload');
    req.flash('success','Upload success');
    res.redirect('/upload');
 });
+router.get('/u/:name', checkLogin);
+router.get('/u/:name',function(req,res){  //user page
+  User.get(req.params.name,function(err,user){
+    if(!user){
+      req.flash('error','User does not exist');
+      res.redirect('/');
+    }
+    Post.getAll(user.name,function(err,posts){
+      if(err){
+        req.flash('error',err),
+        res.redirect('/')
+      }
+      res.render('user',{
+      title:user.name,
+      posts:posts,
+      user:req.session.user,
+      success:req.flash('success').toString(),
+      error:req.flash('error').toString()
+    });
+     
+    });
+  });
+});
+
+router.get('/u/:name/:day/:title', checkLogin);
+router.get('/u/:name/:day/:title',function(req,res){    //article page
+  Post.getOne(req.params.name,req.params.day,req.params.title,function(err,post){
+     if(err){
+      console.log("get one error");
+      req.flash('error',err);
+      return res.redirect('/');
+     }
+     console.log("article");
+     res.render('article',{
+      title:req.params.title,
+      post:post,
+      user:req.session.user,
+      success:req.flash('success').toString(),
+      error:req.flash('error').toString()
+     });
+  });
+});
+
+router.get('/edit/:name/:day/:title', checkLogin);
+router.get('/edit/:name/:day/:title',function(req,res){   //edit page
+  Post.edit(req.params.name,req.params.day,req.params.title,function(err,post){
+    if(err){
+      console.log(err);
+      req.flash('error',err);
+      return res.redirect('/');
+
+    }
+    res.render("edit",{
+      title:'Edit',
+      post:post,
+      user:req.session.user,
+      success:req.flash('success').toString(),
+      error:req.flash('error').toString()
+    });
+  });
+});
+
+router.post('/edit/:name/:day/:title',checkLogin);
+router.post('/edit/:name/:day/:title',function(req,res){
+  var currentUser=req.session.user;
+  Post.update(currentUser.name,req.params.day,req.params.title,req.body.post,function(err){
+    var url=encodeURI('/u/'+req.params.name+'/'+req.params.day+'/'+req.params.title);
+    if(err){
+      req.flash('error',err);
+      return res.redirect(url);
+    }
+    req.flash('success','Update success');
+    res.redirect(url);
+  })
+})
+
+router.get('/remove/:name/:day/:title',checkLogin);
+router.get('/remove/:name/:day/:title',function(req,res){
+  var currentUser=req.session.user;
+  Post.remove(currentUser.name,req.params.day,req.params.title,req.body.post,function(err){
+    if(err){
+      req.flash('error',err);
+      return res.redirect('/');
+    }
+    req.flash('success','Remove success');
+    res.redirect('/');
+  })
+})
 
 module.exports = router;
 
