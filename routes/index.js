@@ -165,6 +165,7 @@ router.post('/upload',upload,function(req,res){  //post file
    req.flash('success','Upload success');
    res.redirect('/upload');
 });
+router.get('/u/:name', checkLogin);
 router.get('/u/:name',function(req,res){  //user page
   User.get(req.params.name,function(err,user){
     if(!user){
@@ -187,6 +188,8 @@ router.get('/u/:name',function(req,res){  //user page
     });
   });
 });
+
+router.get('/u/:name/:day/:title', checkLogin);
 router.get('/u/:name/:day/:title',function(req,res){    //article page
   Post.getOne(req.params.name,req.params.day,req.params.title,function(err,post){
      if(err){
@@ -204,6 +207,52 @@ router.get('/u/:name/:day/:title',function(req,res){    //article page
      });
   });
 });
+
+router.get('/edit/:name/:day/:title', checkLogin);
+router.get('/edit/:name/:day/:title',function(req,res){   //edit page
+  Post.edit(req.params.name,req.params.day,req.params.title,function(err,post){
+    if(err){
+      console.log(err);
+      req.flash('error',err);
+      return res.redirect('/');
+
+    }
+    res.render("edit",{
+      title:'Edit',
+      post:post,
+      user:req.session.user,
+      success:req.flash('success').toString(),
+      error:req.flash('error').toString()
+    });
+  });
+});
+
+router.post('/edit/:name/:day/:title',checkLogin);
+router.post('/edit/:name/:day/:title',function(req,res){
+  var currentUser=req.session.user;
+  Post.update(currentUser.name,req.params.day,req.params.title,req.body.post,function(err){
+    var url=encodeURI('/u/'+req.params.name+'/'+req.params.day+'/'+req.params.title);
+    if(err){
+      req.flash('error',err);
+      return res.redirect(url);
+    }
+    req.flash('success','Update success');
+    res.redirect(url);
+  })
+})
+
+router.get('/remove/:name/:day/:title',checkLogin);
+router.get('/remove/:name/:day/:title',function(req,res){
+  var currentUser=req.session.user;
+  Post.remove(currentUser.name,req.params.day,req.params.title,req.body.post,function(err){
+    if(err){
+      req.flash('error',err);
+      return res.redirect('/');
+    }
+    req.flash('success','Remove success');
+    res.redirect('/');
+  })
+})
 
 module.exports = router;
 

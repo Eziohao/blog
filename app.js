@@ -52,6 +52,7 @@ app.use('/post', routes);
 app.use('/upload',routes);
 app.use('/u/:name',routes);
 app.use('/u/:name/:day/:title',routes);
+app.use('/edit/:name/:day/:title',routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
