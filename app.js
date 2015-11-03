@@ -37,11 +37,12 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 30
   },
-  store: new MongoStore({
+  /*store: new MongoStore({
     db: settings.db,
     host: settings.host,
     port: settings.port
-  })
+  })*/
+ url:settings.url
 }));
 app.use(flash());
 app.use('/', routes);
