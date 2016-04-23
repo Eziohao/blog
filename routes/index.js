@@ -7,12 +7,15 @@ var router = express.Router();
 var flash = require('connect-flash');
 var multer=require('multer');
 
+/*
 var upload=multer({
   dest:'../bin/public/images',
   rename:function(fieldname,filename){
     return filename;
   }
-   });
+});
+*/
+
 /* GET home page. */
 router.get('/', function(req, res) {   //mainpage
   Post.getAll(null,function(err,posts){
@@ -150,6 +153,7 @@ router.post('/post',function(req,res){  //post article
     res.redirect('/');
   })
 })
+/*
 router.get('/upload',checkLogin);
 router.get('/upload',function(req,res){  //upload file gets page
   res.render('upload',{
@@ -166,6 +170,8 @@ router.post('/upload',upload,function(req,res){  //post file
    req.flash('success','Upload success');
    res.redirect('/upload');
 });
+*/
+
 router.get('/u/:name', checkLogin);
 router.get('/u/:name',function(req,res){  //user page
   User.get(req.params.name,function(err,user){
